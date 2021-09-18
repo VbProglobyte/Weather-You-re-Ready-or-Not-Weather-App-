@@ -29,11 +29,27 @@ body {
     width: 100%;
     font-size: 36px;
     margin-left: 20px;
+    padding: 2%;
 }
-.searchBtn{
+
+.formContainer {
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0, 0, 0, .5);
+    border: 1px rgba(0, 0, 0, 0.34);
+    border-radius: 25px;
+    padding: 0px 2em;
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+    float: right;
+}
+
+.searchBtn {
     background-color: #066bed;
     border-radius: 15px;
-    padding: 10px;
+    padding: .5%;
     color: white;
     border: none;
 
@@ -63,7 +79,7 @@ body {
 .tempFormatBtn {
 
 }
-
+/* C & F buttons */
 .celsius, .fahrenheit  {
     background-color: #066bed;
     border-radius: 15px;
@@ -76,7 +92,7 @@ body {
 
 }
 /* ----------------------------------- */
-/* class id or section? */
+/* 5 day forecast */
 h2 { 
     font-size: 20%;
 }
@@ -86,13 +102,29 @@ h3 {
     margin-left: 20px;
 }
 
-.forcast {
+.forecast {
+    display: flex;
+    flex-direction: column;
 
 }
 
 #futureTemp5 {
-    display:flex;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
 }
 .futureTemp {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 15px;
+    padding: 20px;
+    width: 25%;
+    text-align: center;
+    
 
 }
