@@ -44,15 +44,21 @@ body {
     line-height: 40px;
     vertical-align: middle;
     float: right;
+    position: relative;
 }
-
+button:hover {
+    border-radius: 15px;
+    padding: 10px;
+    color: white;
+    border: none;
+    border: 1px solid white;
+}
 .searchBtn {
     background-color: #066bed;
     border-radius: 15px;
     padding: .5%;
     color: white;
     border: none;
-
 }   
 /* today conatiner -------------------*/
 .today {
@@ -125,6 +131,5 @@ h3 {
     padding: 20px;
     width: 25%;
     text-align: center;
-    
-
+    flex: column; 
 }

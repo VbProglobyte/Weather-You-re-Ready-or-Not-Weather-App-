@@ -16,7 +16,7 @@ let f = document.querySelector('.fahrenheit')
 
 //LOADS CITYS INTO SEARCH
 loadCities();
-//loads cities from local storage -------- savedCities
+//loads cities from local storage -------- /////savedCities//////
 function loadCities(){
   var savedCitiesArr = JSON.parse(localStorage.getItem("savedCities")) || [];
   for (var i = 0; i < savedCitiesArr.length; i++) {
@@ -26,7 +26,7 @@ function loadCities(){
 
 
 // fetch(api) // STILL NEED 
-
+// https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 //prevent form from reloading the screen
 $('#search-form').submit(function(e){
     e.preventDefault()
