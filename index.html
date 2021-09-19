@@ -9,7 +9,7 @@
 <!-- css -->
     <link rel="stylesheet" href="style.css">
     
-    <title>Weather App<i class="bi bi-cloud-lightning-rain-fill"></i></title>
+    <title>Weather App</title>
 </head>
 <body>
 <div class =  "container">
@@ -19,13 +19,17 @@
         <form id = "searchForm" name = "search-form" onsubmit = "return search()">
           <input type = "text" id = "cityName" placeholder = "Search for a City">
           <button class = "searchBtn">Search</button>
-          <div class = "today">
-          <!-- <input type = "submit" id = "searchBtn" value = ""> -->
+           <!-- div class for BUTTONS -->
+          <div class = "tempFormatBtn">
+          <!-- BUTTONS for C and F toggle -->
+          <button class = "celsius">C</button>
+          <button class = "fahrenheit">F</button>
+          </div>    
         </form>
-    
-    
+    <!-- TODAY -->
+      <div class = "today">
         <!-- div class for h2 -->
-    <h2 class = "cityDate"></h2>
+        <h2 class = "cityDate">Today</h2>
         <!-- div class for LOCATION -->
         <div class = "location"></div>
         <i class="fas fa-map-marker-alt fa-2x"></i><span id="city"></span><p id="current-date"></p>
@@ -33,21 +37,16 @@
         <div class = "temperature">
             <!-- div class for DEGREES -->
         </div>
-        <!-- div class for BUTTONS -->
-        <div class = "tempFormatBtn">
-            <!-- BUTTONS for C and F toggle -->
-            <button class = "celsius">C</button>
-            <button class = "fahrenheit">F</button>
-        </div>
         <!-- section class for DESCRIPTION of the weather -->
         <section class = "description">
         </section>
-    </div>
+      </div>
+    
     <!-- 5 DAY FORECAST -->
     <div class="forecast">
         <h3>5 Day Forecast</h3>
     </div>
-      <div id="futureTemp5">
+      <div class="futureTemp5">
           <!-- DAY 1 -->
         <section class= "futureTemp">
           <div id="futDate1"></div>

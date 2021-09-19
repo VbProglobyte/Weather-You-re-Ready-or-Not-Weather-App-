@@ -35,23 +35,22 @@ body {
 .formContainer {
     color: #fff;
     font-size: 16px;
-    background: rgba(0, 0, 0, .5);
-    border: 1px rgba(0, 0, 0, 0.34);
     border-radius: 25px;
-    padding: 0px 2em;
+    padding: 2%;
     margin: 0;
     height: 40px;
     line-height: 40px;
     vertical-align: middle;
     float: right;
-    position: relative;
+    position: right;
 }
 button:hover {
     border-radius: 15px;
     padding: 10px;
     color: white;
+    transition: ease-in .1s;
     border: none;
-    border: 1px solid white;
+    border: 2px solid rgb(159, 196, 255);
 }
 .searchBtn {
     background-color: #066bed;
@@ -63,27 +62,31 @@ button:hover {
 /* today conatiner -------------------*/
 .today {
     display: flex;
-    flex-direction: column;
-    background: rgba(0, 0, 0, .5);
+    /* flex-direction: column; */
+    background: rgba(6, 9, 87, 0.5);
     border-radius: 15px;
     padding: 30px;
     margin-left: 20px;
     margin-bottom: 20px;
 }
 .cityDate {
-
+    font-size: 150%;
 }
 
 .location {
     margin-right: 2%;
+    font-size: 150%;
 }
 
 .temperature {
-
+    font-size: 150%;
 }
 
 .tempFormatBtn {
-
+    display: flex;
+    /* flex-direction: row; */
+    position: relative;
+    padding: 2%;
 }
 /* C & F buttons */
 .celsius, .fahrenheit  {
@@ -92,6 +95,8 @@ button:hover {
     padding: 10px;
     color: white;
     border: none;
+    float: right;
+    justify-content: space-around;
 }
 
 .description {
@@ -114,22 +119,20 @@ h3 {
 
 }
 
-#futureTemp5 {
-    margin-bottom: 20px;
-    margin-left: 20px;
-    background: rgba(0, 0, 0, .5);
-    border-radius: 15px;
-    padding: 20px;
-    width: 100%;
-    text-align: center;
+.futureTemp5 {
+    width: 20%;
+    margin: 10px;
+    padding: 2%;
+    
 }
 .futureTemp {
     margin-bottom: 20px;
     margin-left: 20px;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(6, 9, 87, 0.5);
     border-radius: 15px;
     padding: 20px;
-    width: 25%;
+    width: 100%;
     text-align: center;
-    flex: column; 
+    
+
 }

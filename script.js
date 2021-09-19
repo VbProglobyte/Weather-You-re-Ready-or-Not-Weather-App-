@@ -3,7 +3,9 @@
 // location // temperature // tempFormatBtn // celsius // fahrenheit //description // h2 // searchBtn // futureTemp
 // --------------------------------------------
 //IDs :
-// searchForm // cityName //5dayFurureTemp
+// searchForm // cityName // 
+//5 day :
+// futDay1(2,3,4,5) // futWeather-icon1(2,3,4,5) // futTemp(2,3,4,5) // futStatus(2,3,4,5) // futHumidity(2,3,4,5)
 // ---------------------------------------------
 
 
@@ -28,7 +30,7 @@ function loadCities(){
 // fetch(api) // STILL NEED 
 // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 //prevent form from reloading the screen
-$('#search-form').submit(function(e){
+$('#searchForm').submit(function(e){
     e.preventDefault()
 })
 
