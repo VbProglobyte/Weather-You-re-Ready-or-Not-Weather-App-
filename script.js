@@ -59,7 +59,7 @@ function hideAll(){
   $('#forecast-title').hide();
 }
 
-
+// fetch(api)
 // CITYS INTO SEARCH
 function search(cityName) {
   let cityapiURL = `https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={myKey}`;
@@ -75,11 +75,13 @@ function search(cityName) {
           coords.push(data.coord.lon);
           saveSearch(cityName);
           renderWeather(coords);
+            for (var i = 0; i < data.length; i++) {
+            console.log(data[i].name);
       });
 }
 
 
-// fetch(api) // STILL NEED 
+
 
 // run SEARCH
 search(city);
@@ -87,9 +89,9 @@ search(city);
 // value of form -------------------------------
 $('formContainer').click((event) =>{
 event.preventDefault()
-city = $('#city-name').val().toLowerCase()
+city = $('#cityName').val().toLowerCase()
 
-console.log(city)
+console.log(cityName)
 
 // search city -------------------------------
 search(cityName);
