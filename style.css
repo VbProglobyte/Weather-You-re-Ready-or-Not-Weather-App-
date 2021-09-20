@@ -19,9 +19,9 @@ body {
 /* ------------------------------------------------ */
 .container {
     display: flex;
-    flex-direction: column;
-    padding: 30px;
-    width: 95%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .heading {
@@ -31,18 +31,21 @@ body {
     margin-left: 20px;
     padding: 2%;
 }
-
+/* -------------------------------------------------- */
 .formContainer {
-    color: #fff;
-    font-size: 16px;
-    border-radius: 25px;
-    padding: 2%;
-    margin: 0;
-    height: 40px;
-    line-height: 40px;
-    vertical-align: middle;
-    float: right;
-    position: right;
+  
+  
+}
+.searchForm {
+   
+    
+}
+input {
+    background-color: rgba(6, 9, 87, 0.5);
+    border-radius: 15px;
+    padding: .5%;
+    border: none;
+    /* margin-left: 5px; */
 }
 button:hover {
     border-radius: 15px;
@@ -58,19 +61,19 @@ button:hover {
     padding: .5%;
     color: white;
     border: none;
+    margin-left: 5px;
 }   
-/* today conatiner -------------------*/
+/* today conatiner -----------------------------------*/
 .today {
-    display: flex;
-    /* flex-direction: column; */
     background: rgba(6, 9, 87, 0.5);
     border-radius: 15px;
-    padding: 30px;
+    padding: 70px;
     margin-left: 20px;
     margin-bottom: 20px;
 }
 .cityDate {
-    font-size: 150%;
+ /*TODAY - h2*/
+ 
 }
 
 .location {
@@ -79,7 +82,7 @@ button:hover {
 }
 
 .temperature {
-    font-size: 150%;
+    font-size: 100%;
 }
 
 .tempFormatBtn {
@@ -96,43 +99,40 @@ button:hover {
     color: white;
     border: none;
     float: right;
-    justify-content: space-around;
+    margin-right: 5px;
 }
 
 .description {
 
 }
-/* ----------------------------------- */
+
+/* ----------------------------------------------------- */
 /* 5 day forecast */
-h2 { 
-    font-size: 20%;
-}
 /* -------------------------5 day forecast-------------------- */
 h3 {
     font-size: 32px;
     margin-left: 20px;
+
 }
 
 .forecast {
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
 
 }
 
 .futureTemp5 {
     width: 20%;
     margin: 10px;
-    padding: 2%;
-    
+    /* justify-content: space-evenly; */
 }
 .futureTemp {
     margin-bottom: 20px;
     margin-left: 20px;
+    flex-direction: row;
     background: rgba(6, 9, 87, 0.5);
     border-radius: 15px;
-    padding: 20px;
+    padding: 40px;
     width: 100%;
     text-align: center;
-    
 
 }
