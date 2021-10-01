@@ -12,6 +12,7 @@
       fetch("https://api.openweathermap.org/data/2.5/weather?q=" 
       + city + "&units=metric&appid=" 
       + this.myKey)
+      // , ("api.openweathermap.org/data/2.5/find?q=" + city + "&units=imperial&appid=" + this.myKey)
         .then((response) => {
           if (!response.ok) {
             alert("oh no...no weather...");
@@ -29,9 +30,9 @@
           const {speed} = data.wind;
              console.log(name, icon, description, temp, humidity, speed)
             document.querySelector(".location").innerText = name;
-            document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + "@2x.png"; 
+            document.querySelector(".icon").src ="https://openweathermap.org/img/wn/" + icon + "@2x.png"; 
             document.querySelector(".description").innerText = description;
-            document.querySelector(".temperature").innerText = temp + "°C";
+            document.querySelector(".temperature").innerText = Math.floor(temp) + "°C";
             document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
             document.querySelector(".windSpeed").innerText = "Wind speed: " + speed + "mph";
             // document.querySelector(".uvi").innerText = "UV index: " +
