@@ -14,10 +14,6 @@ body {
     -webkit-background-size: cover;
     -o-background-size: cover;
     -ms-background-size: cover;  
-    display: block;
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
     height: 100vh;
 }
 /* ------------------------------------------------ */
@@ -37,6 +33,7 @@ body {
     padding: 2%;
     float: inline-end;
     justify-content: right;
+    color:rgb(159, 196, 255);
 }
 
 /* -------------------------------------------------- */
@@ -165,6 +162,7 @@ button:hover {
     .searchBtn {
         margin-left: 2%;
     }
+    
     button {
         display: flex;
         justify-content: center;

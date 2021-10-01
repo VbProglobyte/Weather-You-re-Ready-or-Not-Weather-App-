@@ -1,45 +1,8 @@
-// contents:::::::::::::::::::::::::::::::::::
-// classes to select from:
-// location // temperature // tempFormatBtn // celsius // fahrenheit //description // h2 // searchBtn // futureTemp
-// --------------------------------------------
-//IDs :
-// searchForm // cityName // 
-//5 day :
-// futDay1(2,3,4,5) // futWeather-icon1(2,3,4,5) // futTemp(2,3,4,5) // futStatus(2,3,4,5) // futHumidity(2,3,4,5)
-
-// ---------------------------------------------
-
-// const myKey = "bfac35a66cb8ed1f07b834b4a00c9efb";
-
-// const inputVal = input.value;
-// const apiURL = `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=bfac35a66cb8ed1f07b834b4a00c9efb`;
-// https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid={myKey}
-// celsius
-// https://api.openweathermap.org/data/2.5/weather?q=Dallas&units=metric&appid=bfac35a66cb8ed1f07b834b4a00c9efb
-// fahrenheit
-// https://api.openweathermap.org/data/2.5/weather?q=Dallas&units=imperial&appid=bfac35a66cb8ed1f07b834b4a00c9efb
-
-// event prevent default -------------------------------
-// const searchForm = document.querySelector("#searchForm");
-// const searchBtn = document.querySelector("searchBtn");
-
-
-// searchFormEl.addEventListener('searchBtnEl', (event) =>{
-//   event.preventDefault(); {
-//   $("searchBtn").click((event) => {
-//       event.preventDefault();
-//       console.log(cityName);
-//   })
-// }
-// $(document).ready(function () {
-// fetch(api) ------------------------------------------------------
-// CITYS INTO SEARCH
-// function search(cityName) {
-
-  // let apiURL = "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={myKey}";
-  // let myKey = "bfac35a66cb8ed1f07b834b4a00c9efb";
-  // let cityName = "";
   
+  // PREVENT DEFAULT FOR WEATHER SEARCH
+  $('#searchForm').submit(function(e){
+    e.preventDefault()
+})
 
   let weather = {
     myKey: "bfac35a66cb8ed1f07b834b4a00c9efb",
@@ -58,6 +21,8 @@
         .then((data) => this.displayWeather(data));
     },
         displayWeather: function(data) {
+        
+              // api pull request --------------------------------------------
           const {name} = data;
           const {icon, description} = data.weather[0];
           const {temp, humidity} = data.main;
@@ -71,6 +36,7 @@
             document.querySelector(".windSpeed").innerText = "Wind speed: " + speed + "mph";
             // document.querySelector(".uvi").innerText = "UV index: " +
             // document.querySelector(".weather").classList.remove("pending")
+            
         },
         search: function () {
           this.fetchWeather(document.querySelector(".cityName").value);
@@ -80,12 +46,14 @@
     
     document.querySelector(".searchBtn").addEventListener("click", function () {
     weather.search();
+    
   });
   
   // document.querySelector(".cityName")
   
-  weather.fetchWeather("dallas");
-  
+  weather.fetchWeather("dallas"); //default city display
+   
+ 
   
 
 // let humidity = document.querySelector(".humidity");
