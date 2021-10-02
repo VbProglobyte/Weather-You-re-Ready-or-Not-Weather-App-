@@ -1,4 +1,20 @@
-  
+// let c = document.querySelector('.celsius');
+// let f = document.querySelector('.fahrenheit')
+let btn = document.querySelector(button);
+ // Add a click event listener to the button
+ btn.addEventListener ('click', function => {
+     // Find the fahrenheit input field
+     let f = document.querySelector('.fahrenheit'),
+     // Find the celsisus input field
+     let c = document.querySelector('.celsisus'),
+     // Make the calculation from the fahrenheit value.
+     // Save it to the celsisus input field using `c.value`
+     // where `c` is the reference to the celsisus input
+     c.value = parseFloat(f.value) * 1.8 + 32;
+     
+ });
+// document.querySelector('.fahrenheit').addEventListener('click', displayWeatherFahrenheit)
+
   // PREVENT DEFAULT FOR WEATHER SEARCH
   $('#searchForm').submit(function(e){
     e.preventDefault()
@@ -33,6 +49,8 @@
             document.querySelector(".icon").src ="https://openweathermap.org/img/wn/" + icon + "@2x.png"; 
             document.querySelector(".description").innerText = description;
             document.querySelector(".temperature").innerText = Math.floor(temp) + "°C";
+            // Celsius * 1.8 + 32 = Fahrenheit
+            document.querySelector(".temperature").innerText = Math.floor(temp) + "°F";
             document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
             document.querySelector(".windSpeed").innerText = "Wind speed: " + speed + "mph";
             // document.querySelector(".uvi").innerText = "UV index: " +
@@ -47,7 +65,33 @@
     
     document.querySelector(".searchBtn").addEventListener("click", function () {
     weather.search();
-    
+    var url = "https://api.openweathermap.org/data/2.5/forecast";
+
+    $.ajax({
+  url: url, //API Call
+  dataType: "json",
+  type: "GET",
+  data: {
+    q: city,
+    appid: key,
+    units: "metric",
+    cnt: "10"
+  },
+  success: function(data) {
+    console.log('Received data:', data) // For testing
+    var wf = "";
+    wf += "<h2>" + data.city.name + "</h2>"; // City (displays once)
+    $.each(data.list, function(index, val) {
+      wf += "<p>" // Opening paragraph tag
+      wf += "<b>Day " + index + "</b>: " // Day
+      wf += val.main.temp + "&degC" // Temperature
+      wf += "<span> | " + val.weather[0].description + "</span>"; // Description
+      wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" // Icon
+      wf += "</p>" // Closing paragraph tag
+    });
+    $("#showWeatherForcast").html(wf);
+  }
+});
   });
   
   // document.querySelector(".cityName")
