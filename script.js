@@ -55,7 +55,7 @@ function callWeatherTemps(city) {
     let cardHumidity = $("<p>").text("Humidity: " + humidity);
     let cardWind = $("<p>").text("Wind Speed: " + wind);
 
-    //Appends Weather 
+    //Appends Weather to cards - make card in html
     $("#weather-append").append(
       cardBody,
       cardTitle,
