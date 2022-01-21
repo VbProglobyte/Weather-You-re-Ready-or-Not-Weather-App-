@@ -1,12 +1,14 @@
-let searchHistory = JSON.parse(localStorage.getItem("cities")) || [];
+let searchHistory = JSON.parse(localStorage
+  .getItem("cities")
+) || [];
 
 //Listens for click event = search button
 $("#searchButton").on("click", function () {
-  let searchData = $("#weather-input").val().trim();
+  let searchData = $("#city-input").val().trim();
 
   callWeatherTemps(searchData);
 });
-// ////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////// MAIN WEATHER FUNCTION
 //One day function API Call - new key for different API
 function callWeatherTemps(city) {
   let queryURL =
@@ -19,14 +21,14 @@ function callWeatherTemps(city) {
   }).then(function (response) {
     searchHistory.unshift(response.name);
 
-    //Removes Duplicates from the searchHistory 
+    //Removes Duplicates from the searchHistory - local storage works now
     searchHistory = Array.from(new Set(searchHistory));
     localStorage.setItem("cities", JSON.stringify(searchHistory));
     displaySearchHistory(searchHistory);
 
     //Empty weather-append div when button is pressed
     $("#weather-append").empty();
-    //Converts to Fahrenheit from Kelvin
+    //Fahrenheit from Kelvin
     let fahrenheit = (
       (parseInt(response.main.temp - 273.15) * 9) / 5 +
       32
@@ -44,11 +46,11 @@ function callWeatherTemps(city) {
     //appends weather icons from the api
     cardTitle.append(
       '<img src="http://openweathermap.org/img/wn/' +
-        response.weather[0].icon +
-        '.png" >'
+      response.weather[0].icon +
+      '.png" >'
     );
-// ////////////////////////////////////////////////////////////// details 
-    
+    // ////////////////////////////////////////////////////////////// details 
+
     let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
     let cardHumidity = $("<p>").text("Humidity: " + humidity);
     let cardWind = $("<p>").text("Wind Speed: " + wind);
@@ -111,21 +113,21 @@ function callFiveDay(lat, lon) {
         (parseInt(forecastWeather.temp.day - 273.15) * 9) / 5 +
         32
       ).toFixed() + " F"; // changed to fahrenheight 
-// couldnt get the button converter to work 
-      
+      // couldnt get the button converter to work 
+
       let cardBody = $("<div>").addClass("card-body");
       let cardTitle = $("<h3>")
         .addClass("card-title")
         .text(date.toLocaleDateString());
-      
+
       //Appends icon to the 5day forecase.
-       cardTitle.append(
+      cardTitle.append(
         '<img src="http://openweathermap.org/img/wn/' +
-          forecastWeather.weather[0].icon +
-          '.png" >'
+        forecastWeather.weather[0].icon +
+        '.png" >'
       );
       let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
-      
+
       $("#fiveday-append").append(cardBody, cardTitle, cardTemp);
     }
   });
@@ -134,7 +136,7 @@ function callFiveDay(lat, lon) {
 //Display the search history of preveious city searches
 function displaySearchHistory(cities) {
 
-//Empty search history
+  //Empty search history
   $("#search-history").empty();
   for (let i = 0; i < cities.length; i++) {
     let city = cities[i];
