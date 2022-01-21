@@ -28,16 +28,16 @@ function callWeatherTemps(city) {
 
     //Empty weather-append div when button is pressed
     $("#weather-append").empty();
-    //Fahrenheit from Kelvin
+    //Fahrenheit from Kelvin /////////////////TEMP
     let fahrenheit = (
       (parseInt(response.main.temp - 273.15) * 9) / 5 +
       32
     ).toFixed() + " F";
-    //Grabs Humidity from response
+    //Grabs Humidity from response //////////////////////////// HUMIDITY
     let humidity = response.main.humidity + "%";
-    //Grabs wind from response
+    //Grabs wind from response ////////////////////////////////// WIND
     let wind = response.wind.speed;
-    //Creates the card for the current weather
+    //Creates the card for the current weather ////////////////////////////// CURRENT DAY
     let cardBody = $("<div>").addClass("card-body");
     let cardTitle = $("<h3>")
       .addClass("card-title")
@@ -63,6 +63,7 @@ function callWeatherTemps(city) {
       cardHumidity,
       cardWind
     );
+    // CALLS FOR COORDINATES 
     callUVIndex(response.coord.lat, response.coord.lon);
     callFiveDay(response.coord.lat, response.coord.lon);
   });
