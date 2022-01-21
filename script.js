@@ -1,109 +1,149 @@
-// let c = document.querySelector('.celsius');
-// let f = document.querySelector('.fahrenheit')
-// let btn = document.querySelector(button);
-//  // Add a click event listener to the button
-//  btn.addEventListener ('click', function => {
-//      // Find the fahrenheit input field
-//      let f = document.querySelector('.fahrenheit'),
-//      // Find the celsisus input field
-//      let c = document.querySelector('.celsisus'),
-//      // Make the calculation from the fahrenheit value.
-//      // Save it to the celsisus input field using `c.value`
-//      // where `c` is the reference to the celsisus input
-//      c.value = parseFloat(f.value) * 1.8 + 32;
-     
-//  });
-// document.querySelector('.fahrenheit').addEventListener('click', displayWeatherFahrenheit)
+let searchHistory = JSON.parse(localStorage.getItem("cities")) || [];
 
-  // PREVENT DEFAULT FOR WEATHER SEARCH
-  $('#searchForm').submit(function(e){
-    e.preventDefault()
-})
+//Listens for click event = search button
+$("#searchButton").on("click", function () {
+  let searchData = $("#weather-input").val().trim();
 
-  let weather = {
-    myKey: "bfac35a66cb8ed1f07b834b4a00c9efb",
-    // apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" 
-    // + myKey" 
-    fetchWeather: function (city) {
-      fetch("https://api.openweathermap.org/data/2.5/weather?q=" 
-      + city + "&units=metric&appid=" 
-      + this.myKey)
-      // , ("api.openweathermap.org/data/2.5/find?q=" + city + "&units=imperial&appid=" + this.myKey)
-        .then((response) => {
-          if (!response.ok) {
-            alert("oh no...no weather...");
-          }
-          return response.json();
-        })
-        .then((data) => this.displayWeather(data));
-    },
-        displayWeather: function(data) {
-        
-              // api pull request ------------------------------------------ID - querySelectors to ID--
-          const {name} = data;
-          const {icon, description} = data.weather[0];
-          const {temp, humidity} = data.main;
-          const {speed} = data.wind;
-             console.log(name, icon, description, temp, humidity, speed)
-            document.querySelector(".location").innerText = name;
-            document.querySelector(".icon").src ="https://openweathermap.org/img/wn/" + icon + "@2x.png"; 
-            document.querySelector(".description").innerText = description;
-            document.querySelector(".temperature").innerText = Math.floor(temp) + "°C";
-            // Celsius * 1.8 + 32 = Fahrenheit
-            // document.querySelector(".temperature").innerText = Math.floor(temp) + "°F";
-            document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
-            document.querySelector(".windSpeed").innerText = "Wind speed: " + speed + "mph";
-            // document.querySelector(".uvi").innerText = "UV index: " +
-            // document.querySelector(".weather").classList.remove("pending")
-            
-        },
-        search: function () {
-          this.fetchWeather(document.querySelector(".cityName").value);
-        },
-        
-    };
+  callWeatherTemps(searchData);
+});
+// ////////////////////////////////////////////////////////////////////
+//One day function API Call - new key for different API
+function callWeatherTemps(city) {
+  let queryURL =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&appid=6ec271a7eaa197efb35f9b736da2f3eb";
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(function (response) {
+    searchHistory.unshift(response.name);
+
+    //Removes Duplicates from the searchHistory 
+    searchHistory = Array.from(new Set(searchHistory));
+    localStorage.setItem("cities", JSON.stringify(searchHistory));
+    displaySearchHistory(searchHistory);
+
+    //Empty weather-append div when button is pressed
+    $("#weather-append").empty();
+    //Converts to Fahrenheit from Kelvin
+    let fahrenheit = (
+      (parseInt(response.main.temp - 273.15) * 9) / 5 +
+      32
+    ).toFixed() + " F";
+    //Grabs Humidity from response
+    let humidity = response.main.humidity + "%";
+    //Grabs wind from response
+    let wind = response.wind.speed;
+    //Creates the card for the current weather
+    let cardBody = $("<div>").addClass("card-body");
+    let cardTitle = $("<h3>")
+      .addClass("card-title")
+      .text(response.name + " " + new Date().toLocaleDateString());
+
+    //appends weather icons from the api
+    cardTitle.append(
+      '<img src="http://openweathermap.org/img/wn/' +
+        response.weather[0].icon +
+        '.png" >'
+    );
+// ////////////////////////////////////////////////////////////// details 
     
-    document.querySelector(".searchBtn").addEventListener("click", function () {
-    weather.search();
-    
+    let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
+    let cardHumidity = $("<p>").text("Humidity: " + humidity);
+    let cardWind = $("<p>").text("Wind Speed: " + wind);
+
+    //Appends Weather 
+    $("#weather-append").append(
+      cardBody,
+      cardTitle,
+      cardTemp,
+      cardHumidity,
+      cardWind
+    );
+    callUVIndex(response.coord.lat, response.coord.lon);
+    callFiveDay(response.coord.lat, response.coord.lon);
   });
-  
-  // document.querySelector(".cityName")
-  
-  weather.fetchWeather("dallas"); //default city display
-   
- 
-  
+}
 
-// let humidity = document.querySelector(".humidity");
-// let windSpeed = document.querySelector(".windSpeed");
-// let uvi = document.querySelector(".uvi");
-// let location = document.querySelector('.location');
-// // let cityName = document.querySelector('.cityName');
-// let temperature = document.querySelector('.temperature');
-// let description = document.querySelector('.description');
-// let tempFormatBtn = document.querySelector('.tempFormatBtn');
-// let c = document.querySelector('.celsius');
-// let f = document.querySelector('.fahrenheit')
-// let cityName = "";
-// let coords = [];
-// // let response;
+//New API call for the UV index /////////////////////////////////
+// couldnt figure out how to display on the 5day 
+function callUVIndex(lat, lon) {
+  let queryURL =
+    "https://api.openweathermap.org/data/2.5/uvi?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=6ec271a7eaa197efb35f9b736da2f3eb";
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(function (response) {
+    //Adds the UV 
+    let uv = response.value;
+    let cardUV = $("<p>").text("UV Index: " + uv);
+    $("#weather-append").append(cardUV);
+  });
+}
 
-// // 5day =========================================
-// let futDay1 = document.querySelector("#futDay1");
-// let futDay2 = document.querySelector("#futDay2");
-// let futDay3 = document.querySelector("#futDay3");
-// let futDay4 = document.querySelector("#futDay4");
-// let futDay5 = document.querySelector("#futDay5");
+//New API call to get the 5 day forecast ////////////////////////////////
+function callFiveDay(lat, lon) {
+  let queryURL =
+    " https://api.openweathermap.org/data/2.5/onecall?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=6ec271a7eaa197efb35f9b736da2f3eb";
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(function (response) {
+    let dayArray = response.daily;
 
-// let futWeather1 = document.querySelector("#futWeather1");
-// let futWeather2 = document.querySelector("#futWeather2");
-// let futWeather3 = document.querySelector("#futWeather3");
-// let futWeather4 = document.querySelector("#futWeather4");
-// let futWeather5 = document.querySelector("#futWeather5");
+    //empty results
+    $("#fiveday-append").empty();
 
-// let futTemp1 = document.querySelector("#futTemp1");
-// let futTemp2 = document.querySelector("#futTemp2");
-// let futTemp3 = document.querySelector("#futTemp3");
-// let futTemp4 = document.querySelector("#futTemp4");
-// let futTemp5 = document.querySelector("#futTemp5");
+
+    for (let i = 0; i < 5; i++) {
+      let forecastWeather = dayArray[i + 1];
+      let date = new Date(forecastWeather.dt * 1000);
+      let fahrenheit = (
+        (parseInt(forecastWeather.temp.day - 273.15) * 9) / 5 +
+        32
+      ).toFixed() + " F"; // changed to fahrenheight 
+// couldnt get the button converter to work 
+      
+      let cardBody = $("<div>").addClass("card-body");
+      let cardTitle = $("<h3>")
+        .addClass("card-title")
+        .text(date.toLocaleDateString());
+      
+      //Appends icon to the 5day forecase.
+       cardTitle.append(
+        '<img src="http://openweathermap.org/img/wn/' +
+          forecastWeather.weather[0].icon +
+          '.png" >'
+      );
+      let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
+      
+      $("#fiveday-append").append(cardBody, cardTitle, cardTemp);
+    }
+  });
+}
+
+//Display the search history of preveious city searches
+function displaySearchHistory(cities) {
+
+//Empty search history
+  $("#search-history").empty();
+  for (let i = 0; i < cities.length; i++) {
+    let city = cities[i];
+    let li = $("<li>").addClass("list-group-item").text(city);
+    li.on("click", function () {
+      callWeatherTemps(city);
+    });
+    $("#search-history").append(li); // search
+  }
+}
+// //////////////////////////////////////////////////////
+displaySearchHistory(searchHistory);

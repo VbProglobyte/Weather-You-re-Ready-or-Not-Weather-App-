@@ -1,128 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- bootstrap -->  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-<!-- css -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- css -->
     <link rel="stylesheet" href="style.css">
     
     <title>Weather App</title>
-</head>
-<body>
+ 
+  </head>
+
+  <body>
+    <!-- Header  -->
+    <div class="jumbotron bg-primary">
+      <h1 class="display-9">Weather App</h1>
+      <hr class="my-4" />
+      <p class="lead"></p>
+    </div>
     
-        <h1 class = "heading ">Weather <i class="bi bi-umbrella"></i>
-          <em> You're Ready or Not</em></h1>
-        <!-- --------------------------------------- -->
-        <div class = "container">
-        <!-- CITY search bar -->
-        <div class = "formContainer col-md-10">
-            <form id = "searchForm" name = "search-form" onsubmit = "return search()"> 
-              <input type = "text" class = "cityName" placeholder = "Search for a City">
-              <!-- search button -->
-              <button type = "submit" class = "searchBtn">Search <i class="bi bi-search"></i></button> 
-               <!-- div class for BUTTONS -->
-              <div class = "tempFormatBtn">
-              <!-- BUTTONS for C and F toggle -->
-              <button class = "celsius">C<i class="bi bi-thermometer"></i></button>
-              <button class = "fahrenheit">F<i class="bi bi-thermometer"></i></button>
-              </div>    
-            </form>
-         </div>
-        <!-- TODAY -->
-          <div class = "today">
-            <!-- div class for h2 -->
-            <div class = "date">Right now <em>in</em></div>
-            <!-- div class for LOCATION -->
-            <h2 class = "location">Dallas</h2>
-            <!-- div class for TEMPERATURE -->
-            <div class = "temperature"></div>
-            <!-- div class for weather ICON -->
-            <!-- <div class = "icon"> -->
-            <img src="" class = "icon"> 
-            <!-- div class for DESCRIPTION -->
-            <div class = "description icon">...</div>
-            <!-- div class for HUMIDITY -->
-            <div class = "humidity">Humidity: ...</div> 
-            <!-- div class for WINDSPEED -->
-            <div class = "windSpeed">Wind Speed: ...</div> 
-            <!-- div class for UVI -->
-            <!-- <div class = "uvi">UV index: low</div>  -->           
+    <!-- City Search -->
+
+    <div class="container-fluid">
+      <div class="col">
+        <div class="col-auto">
+          <div class="card-header bg-primary rounded">
+            <div class="card-body">
+              <h4 class="card-tittle">Search</h4>
+              <input type="text" id="weather-input" />
+              <button
+                class="btn btn-primary btn"
+                role="button"
+                id="searchButton"
+              >
+                Search
+              </button>
+              <div id="forecast"></div>
+            </div>
+          </div>
+          <!-- Search History -->
+          <ul role="button" class=" font-weight-bold list-group" id="search-history">
+          </ul>
         </div>
+
+        <!-- One day Weather and Five Day weather container -->
+        <div class="col">
+          <div class="card text-center font-weight-bold bg-primary rounded" id="weather-append"></div>
+        </div>
+        <div class="col">
+          <div class="card text-center font-weight-bold bg-primary rounded" id="fiveday-append"></div>
+        </div>
+      </div>
     </div>
-    
-    <!-- 5 DAY FORECAST -->
-    <div class="forecast"> <!--div class for heading only-->
-        <h3></h3>
-    </div>
-      <div id="futureTemp5">
-          <!-- DAY 1 -->
-        <section class= "day1">
-          <div id="futDay1"></div>
-          <div id="futWeather1"></div>
-          <div id="futTemp1"></div>
-          <div id="futStatus1"></div>
-          <div id="futHumidity1"></div>
-        </section>
-         <!-- DAY 2 -->
-        <section class= "day2">
-          <div id="futDay2"></div>
-          <div id="futWeather2"></div>
-          <div id="futTemp2"></div>
-          <div id="futStatus2"></div>
-          <div id="futHumidity2"></div>
-        </section>
-         <!-- DAY 3 -->
-        <section class= "day3">
-          <div id="futDay3"></div>
-          <div id="futWeather3"></div>
-          <div id="futTemp3"></div>
-          <div id="futStatus3"></div>
-          <div id="futHumidity3"></div>
-        </section>
-       <!-- DAY 4 -->
-        <section class= "day4">
-          <div id="futDay4"></div>
-          <div id="futWeather4"></div>
-          <div id="futTemp4"></div>
-          <div id="futStatus4"></div>
-          <div id="futHumidity4"></div>
-        </section>
-         <!-- DAY 5 -->
-        <section class= "day5">
-          <div id="futDay5"></div>
-          <div id="futWeather5"></div>
-          <div id="futTemp5"></div>
-          <div id="futStatus5"></div>
-          <div id="futHumidity5"></div>
-        </section>
-     </div> <!--END FUTURETEMP5-->
-   
-    <!-- jQuery library  -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Jquery and Bootstap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"crossorigin="anonymous"></script>
-
-     <!-- javascript -->
-     <script src="script.js"></script>
-</body>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+  </body>
 </html>
-
-
-<!-- ICONS -->
-<!-- <i class="bi bi-cloud-drizzle"></i> -->
-<!-- <i class="bi bi-cloud-haze"></i> -->
-<!-- <i class="bi bi-cloud-lightning-rain"></i> -->
-<!-- <i class="bi bi-cloud-snow"></i> -->
-<!-- <i class="bi bi-cloud-sun"></i> -->
-<!-- <i class="bi bi-sun"></i> -->
-
-<!-- <i class="bi bi-search"></i> -->
-
-<!-- <i class="bi bi-thermometer"></i> -->
-<!-- <i class="bi bi-emoji-dizzy"></i> -->
