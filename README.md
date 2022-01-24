@@ -6,10 +6,7 @@ This weather app will tell you the current day (along with the next 5 days) the 
 
 https://vbproglobyte.github.io/Weather-You-re-Ready-or-Not-Weather-App-/
 
-WAS : 
-![image](https://user-images.githubusercontent.com/83515305/135687150-a1db6cdc-0e42-4c8d-816d-02af4aa1ac86.png)
-
-AND NOW : 
+Image mock-up : 
 
 
 ![screencapture-127-0-0-1-5555-index-html-2022-01-21-11_35_06](https://user-images.githubusercontent.com/83515305/150574421-a63c6aaa-0cd3-4556-a56b-87615eb87b7b.png)
