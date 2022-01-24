@@ -27,7 +27,7 @@ function callWeatherTemps(city) {
     displaySearchHistory(searchHistory);
 
     //Empty weather-append div when button is pressed
-    $("#weather-append").empty();
+    $("#append-weather").empty();
     //Fahrenheit from Kelvin /////////////////TEMP
     let fahrenheit = (
       (parseInt(response.main.temp - 273.15) * 9) / 5 +
@@ -56,7 +56,7 @@ function callWeatherTemps(city) {
     let cardWind = $("<p>").text("Wind Speed: " + wind);
 
     //Appends Weather to cards - make card in html
-    $("#weather-append").append(
+    $("#append-weather").append(
       cardBody,
       cardTitle,
       cardTemp,
@@ -85,7 +85,7 @@ function callUVIndex(lat, lon) {
     //Adds the UV 
     let uv = response.value;
     let cardUV = $("<p>").text("UV Index: " + uv);
-    $("#weather-append").append(cardUV);
+    $("#append-weather").append(cardUV);
   });
 }
 
@@ -104,7 +104,7 @@ function callFiveDay(lat, lon) {
     let dayArray = response.daily;
 
     //empty results
-    $("#fiveday-append").empty();
+    $("#append-five").empty();
 
 
     for (let i = 0; i < 5; i++) {
@@ -129,7 +129,7 @@ function callFiveDay(lat, lon) {
       );
       let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
 
-      $("#fiveday-append").append(cardBody, cardTitle, cardTemp);
+      $("#append-five").append(cardBody, cardTitle, cardTemp);
     }
   });
 }
