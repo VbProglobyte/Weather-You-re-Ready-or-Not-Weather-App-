@@ -1,155 +1,109 @@
-//Listens for click event = search button
-$("#searchButton").on("click", function () {
-  let searchData = $("#city-input").val().trim();
+// let c = document.querySelector('.celsius');
+// let f = document.querySelector('.fahrenheit')
+// let btn = document.querySelector(button);
+//  // Add a click event listener to the button
+//  btn.addEventListener ('click', function => {
+//      // Find the fahrenheit input field
+//      let f = document.querySelector('.fahrenheit'),
+//      // Find the celsisus input field
+//      let c = document.querySelector('.celsisus'),
+//      // Make the calculation from the fahrenheit value.
+//      // Save it to the celsisus input field using `c.value`
+//      // where `c` is the reference to the celsisus input
+//      c.value = parseFloat(f.value) * 1.8 + 32;
+     
+//  });
+// document.querySelector('.fahrenheit').addEventListener('click', displayWeatherFahrenheit)
 
-  callWeatherTemps(searchData);
-});
-// //////////////////////////////////////////////////////////////////// MAIN WEATHER FUNCTION
-//One day function API Call - new key for different API
-function callWeatherTemps(city) {
-  let queryURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    city +
-    "&appid=6ec271a7eaa197efb35f9b736da2f3eb";
-  $.ajax({
-    url: queryURL,
-    method: "GET",
-  }).then(function (response) {
-    //Grabs Humidity from response //////////////////////////// HUMIDITY
-    let humidity = response.main.humidity + "%";
-    //Grabs wind from response ////////////////////////////////// WIND
-    let wind = response.wind.speed;
-    //Creates the card for the current weather ////////////////////////////// CURRENT DAY
-    let cardBody = $("<div>").addClass("card-body");
-    let cardTitle = $("<h3>")
-      .addClass("card-title")
-      .text(response.name + " " + new Date().toLocaleDateString());
-    //Fahrenheit from Kelvin /////////////////TEMP
-    let fahrenheit = (
-      (parseInt(response.main.temp - 273.15) * 9) / 5 +
-      32
-    ).toFixed() + " F";
+  // PREVENT DEFAULT FOR WEATHER SEARCH
+  $('#searchForm').submit(function(e){
+    e.preventDefault()
+})
 
-    searchHistory.unshift(response.name);
-
-    //Removes Duplicates from the searchHistory - local storage works now
-    searchHistory = Array.from(new Set(searchHistory));
-    localStorage.setItem("cities", JSON.stringify(searchHistory));
-    displaySearchHistory(searchHistory);
-
-    //Empty weather-append div when button is pressed
-    $("#append-weather").empty();
-
-    //appends weather icons from the api
-    cardTitle.append(
-      '<img src="http://openweathermap.org/img/wn/' +
-      response.weather[0].icon +
-      '.png" >'
-    );
-    // ////////////////////////////////////////////////////////////// details for 5day
-
-    let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
-    let cardHumidity = $("<p>").text("Humidity: " + humidity);
-    let cardWind = $("<p>").text("Wind Speed: " + wind);
-
-    //Appends Weather to cards - make card in html
-    $("#append-weather").append(
-      cardBody,
-      cardTitle,
-      cardTemp,
-      cardHumidity,
-      cardWind
-    );
-    // CALLS FOR COORDINATES - couldn't get 5 day with cities API so I had to use these calls 
-    callUVIndex(response.coord.lat, response.coord.lon);
-    callFiveDay(response.coord.lat, response.coord.lon);
+  let weather = {
+    myKey: "bfac35a66cb8ed1f07b834b4a00c9efb",
+    // apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" 
+    // + myKey" 
+    fetchWeather: function (city) {
+      fetch("https://api.openweathermap.org/data/2.5/weather?q=" 
+      + city + "&units=metric&appid=" 
+      + this.myKey)
+      // , ("api.openweathermap.org/data/2.5/find?q=" + city + "&units=imperial&appid=" + this.myKey)
+        .then((response) => {
+          if (!response.ok) {
+            alert("oh no...no weather...");
+          }
+          return response.json();
+        })
+        .then((data) => this.displayWeather(data));
+    },
+        displayWeather: function(data) {
+        
+              // api pull request ------------------------------------------ID - querySelectors to ID--
+          const {name} = data;
+          const {icon, description} = data.weather[0];
+          const {temp, humidity} = data.main;
+          const {speed} = data.wind;
+             console.log(name, icon, description, temp, humidity, speed)
+            document.querySelector(".location").innerText = name;
+            document.querySelector(".icon").src ="https://openweathermap.org/img/wn/" + icon + "@2x.png"; 
+            document.querySelector(".description").innerText = description;
+            document.querySelector(".temperature").innerText = Math.floor(temp) + "°C";
+            // Celsius * 1.8 + 32 = Fahrenheit
+            // document.querySelector(".temperature").innerText = Math.floor(temp) + "°F";
+            document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
+            document.querySelector(".windSpeed").innerText = "Wind speed: " + speed + "mph";
+            // document.querySelector(".uvi").innerText = "UV index: " +
+            // document.querySelector(".weather").classList.remove("pending")
+            
+        },
+        search: function () {
+          this.fetchWeather(document.querySelector(".cityName").value);
+        },
+        
+    };
+    
+    document.querySelector(".searchBtn").addEventListener("click", function () {
+    weather.search();
+    
   });
-}
+  
+  // document.querySelector(".cityName")
+  
+  weather.fetchWeather("dallas"); //default city display
+   
+ 
+  
 
-//New API call for the UV index ///////////////////////////////// -call
-// couldnt figure out how to display on the 5day - added ajax
-function callUVIndex(lat, lon) {
-  let queryURL =
-    "https://api.openweathermap.org/data/2.5/uvi?lat=" +
-    lat +
-    "&lon=" +
-    lon +
-    "&appid=6ec271a7eaa197efb35f9b736da2f3eb";
-  $.ajax({
-    url: queryURL,
-    method: "GET",
-  }).then(function (response) {
-    //Adds the UV 
-    let uv = response.value;
-    let cardUV = $("<p>").text("UV Index: " + uv);
-    $("#append-weather").append(cardUV);
-    // console.log("#append-weather") works!!
-  });
-}
+// let humidity = document.querySelector(".humidity");
+// let windSpeed = document.querySelector(".windSpeed");
+// let uvi = document.querySelector(".uvi");
+// let location = document.querySelector('.location');
+// // let cityName = document.querySelector('.cityName');
+// let temperature = document.querySelector('.temperature');
+// let description = document.querySelector('.description');
+// let tempFormatBtn = document.querySelector('.tempFormatBtn');
+// let c = document.querySelector('.celsius');
+// let f = document.querySelector('.fahrenheit')
+// let cityName = "";
+// let coords = [];
+// // let response;
 
-//New API call to get the 5 day forecast ////////////////////////////////
-function callFiveDay(lat, lon) {
-  let queryURL =
-    " https://api.openweathermap.org/data/2.5/onecall?lat=" +
-    lat +
-    "&lon=" +
-    lon +
-    "&appid=6ec271a7eaa197efb35f9b736da2f3eb";
-  $.ajax({
-    url: queryURL,
-    method: "GET",
-  }).then(function (response) {
-    let dayArray = response.daily;
-    // console.log("response")
-    //empty results
-    $("#append-five").empty();
+// // 5day =========================================
+// let futDay1 = document.querySelector("#futDay1");
+// let futDay2 = document.querySelector("#futDay2");
+// let futDay3 = document.querySelector("#futDay3");
+// let futDay4 = document.querySelector("#futDay4");
+// let futDay5 = document.querySelector("#futDay5");
 
-//loop through wether data 
-    for (let i = 0; i < 5; i++) {
-      let forecastWeather = dayArray[i + 1];
-      let date = new Date(forecastWeather.dt * 1000); 
-      let fahrenheit = (
-        (parseInt(forecastWeather.temp.day - 273.15) * 9) / 5 +
-        32
-      ).toFixed() + " F"; // changed to fahrenheight - for 5day
-      // couldnt get the button converter to work 
+// let futWeather1 = document.querySelector("#futWeather1");
+// let futWeather2 = document.querySelector("#futWeather2");
+// let futWeather3 = document.querySelector("#futWeather3");
+// let futWeather4 = document.querySelector("#futWeather4");
+// let futWeather5 = document.querySelector("#futWeather5");
 
-      let cardBody = $("<div>").addClass("card-body");
-      let cardTitle = $("<h3>")
-        .addClass("card-title")
-        .text(date.toLocaleDateString());
-
-      //Appends icon to the 5day forecase.
-      cardTitle.append(
-        '<img src="http://openweathermap.org/img/wn/' +
-        forecastWeather.weather[0].icon +
-        '.png" >'
-      );
-      let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
-
-      $("#append-five").append(cardBody, cardTitle, cardTemp);
-      // console.log("#append-five")
-    }
-  });
-}
-
-//Display the search history of preveious city searches - it wont render weather - fixing search history func to see
-function displaySearchHistory(cities) {
-
-  //Empty search history
-  $("#search-history").empty();
-  for (let i = 0; i < cities.length; i++) {
-    let city = cities[i];
-    let li = $("<li>").addClass("list-group-item").text(city);
-    li.on("click", function () {
-      callWeatherTemps(city);
-    });
-    $("#search-history").append(li); // search
-  }
-  // console.log("#search-history")
-}
-// ////////////////////////////////////////////////////// SEARCH HISTORY - works 
-let searchHistory = JSON.parse(localStorage
-  .getItem("cities")
-) || [];
-displaySearchHistory(searchHistory);
+// let futTemp1 = document.querySelector("#futTemp1");
+// let futTemp2 = document.querySelector("#futTemp2");
+// let futTemp3 = document.querySelector("#futTemp3");
+// let futTemp4 = document.querySelector("#futTemp4");
+// let futTemp5 = document.querySelector("#futTemp5");
