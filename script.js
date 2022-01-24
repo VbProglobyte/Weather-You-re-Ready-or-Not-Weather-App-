@@ -49,7 +49,7 @@ function callWeatherTemps(city) {
       response.weather[0].icon +
       '.png" >'
     );
-    // ////////////////////////////////////////////////////////////// details 
+    // ////////////////////////////////////////////////////////////// details for 5day
 
     let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
     let cardHumidity = $("<p>").text("Humidity: " + humidity);
