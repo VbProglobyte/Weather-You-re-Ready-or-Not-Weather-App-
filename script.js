@@ -1,7 +1,3 @@
-let searchHistory = JSON.parse(localStorage
-  .getItem("cities")
-) || [];
-
 //Listens for click event = search button
 $("#searchButton").on("click", function () {
   let searchData = $("#city-input").val().trim();
@@ -19,20 +15,6 @@ function callWeatherTemps(city) {
     url: queryURL,
     method: "GET",
   }).then(function (response) {
-    searchHistory.unshift(response.name);
-
-    //Removes Duplicates from the searchHistory - local storage works now
-    searchHistory = Array.from(new Set(searchHistory));
-    localStorage.setItem("cities", JSON.stringify(searchHistory));
-    displaySearchHistory(searchHistory);
-
-    //Empty weather-append div when button is pressed
-    $("#append-weather").empty();
-    //Fahrenheit from Kelvin /////////////////TEMP
-    let fahrenheit = (
-      (parseInt(response.main.temp - 273.15) * 9) / 5 +
-      32
-    ).toFixed() + " F";
     //Grabs Humidity from response //////////////////////////// HUMIDITY
     let humidity = response.main.humidity + "%";
     //Grabs wind from response ////////////////////////////////// WIND
@@ -42,6 +24,21 @@ function callWeatherTemps(city) {
     let cardTitle = $("<h3>")
       .addClass("card-title")
       .text(response.name + " " + new Date().toLocaleDateString());
+    //Fahrenheit from Kelvin /////////////////TEMP
+    let fahrenheit = (
+      (parseInt(response.main.temp - 273.15) * 9) / 5 +
+      32
+    ).toFixed() + " F";
+
+    searchHistory.unshift(response.name);
+
+    //Removes Duplicates from the searchHistory - local storage works now
+    searchHistory = Array.from(new Set(searchHistory));
+    localStorage.setItem("cities", JSON.stringify(searchHistory));
+    displaySearchHistory(searchHistory);
+
+    //Empty weather-append div when button is pressed
+    $("#append-weather").empty();
 
     //appends weather icons from the api
     cardTitle.append(
@@ -63,14 +60,14 @@ function callWeatherTemps(city) {
       cardHumidity,
       cardWind
     );
-    // CALLS FOR COORDINATES 
+    // CALLS FOR COORDINATES - couldn't get 5 day with cities API so I had to use these calls 
     callUVIndex(response.coord.lat, response.coord.lon);
     callFiveDay(response.coord.lat, response.coord.lon);
   });
 }
 
-//New API call for the UV index /////////////////////////////////
-// couldnt figure out how to display on the 5day 
+//New API call for the UV index ///////////////////////////////// -call
+// couldnt figure out how to display on the 5day - added ajax
 function callUVIndex(lat, lon) {
   let queryURL =
     "https://api.openweathermap.org/data/2.5/uvi?lat=" +
@@ -86,6 +83,7 @@ function callUVIndex(lat, lon) {
     let uv = response.value;
     let cardUV = $("<p>").text("UV Index: " + uv);
     $("#append-weather").append(cardUV);
+    // console.log("#append-weather") works!!
   });
 }
 
@@ -102,18 +100,18 @@ function callFiveDay(lat, lon) {
     method: "GET",
   }).then(function (response) {
     let dayArray = response.daily;
-
+    // console.log("response")
     //empty results
     $("#append-five").empty();
 
-
+//loop through wether data 
     for (let i = 0; i < 5; i++) {
       let forecastWeather = dayArray[i + 1];
-      let date = new Date(forecastWeather.dt * 1000);
+      let date = new Date(forecastWeather.dt * 1000); 
       let fahrenheit = (
         (parseInt(forecastWeather.temp.day - 273.15) * 9) / 5 +
         32
-      ).toFixed() + " F"; // changed to fahrenheight 
+      ).toFixed() + " F"; // changed to fahrenheight - for 5day
       // couldnt get the button converter to work 
 
       let cardBody = $("<div>").addClass("card-body");
@@ -130,11 +128,12 @@ function callFiveDay(lat, lon) {
       let cardTemp = $("<p>").text("Temperature: " + fahrenheit);
 
       $("#append-five").append(cardBody, cardTitle, cardTemp);
+      // console.log("#append-five")
     }
   });
 }
 
-//Display the search history of preveious city searches
+//Display the search history of preveious city searches - it wont render weather - fixing search history func to see
 function displaySearchHistory(cities) {
 
   //Empty search history
@@ -147,6 +146,10 @@ function displaySearchHistory(cities) {
     });
     $("#search-history").append(li); // search
   }
+  // console.log("#search-history")
 }
-// //////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////// SEARCH HISTORY - works 
+let searchHistory = JSON.parse(localStorage
+  .getItem("cities")
+) || [];
 displaySearchHistory(searchHistory);
